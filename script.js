@@ -3,10 +3,24 @@ document.addEventListener('DOMContentLoaded', function () {
     createMatrixEffect();
 });
 
+// Global configuration for matrix effect
+let matrixColor = '#00ff41'; // Default green
+let matrixInterval;
+
 function createMatrixEffect() {
     const canvas = document.createElement('canvas');
     canvas.classList.add('matrix-effect');
     document.body.appendChild(canvas);
+
+    // Store canvas reference to recreate/resize later if needed
+    window.matrixCanvas = canvas;
+
+    startMatrixAnimation();
+}
+
+function startMatrixAnimation() {
+    const canvas = window.matrixCanvas;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -25,7 +39,7 @@ function createMatrixEffect() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#00ff41';
+        ctx.fillStyle = matrixColor; // Use dynamic color
         ctx.font = `${fontSize}px monospace`;
 
         for (let i = 0; i < drops.length; i++) {
@@ -40,7 +54,8 @@ function createMatrixEffect() {
         }
     }
 
-    setInterval(draw, 35);
+    if (matrixInterval) clearInterval(matrixInterval);
+    matrixInterval = setInterval(draw, 35);
 }
 
 function glitchEffect() {
@@ -64,18 +79,41 @@ function glitchEffect() {
 
 function toggleTheme() {
     const body = document.body;
-    const currentBG = getComputedStyle(body).backgroundImage;
+    const isRedTheme = body.getAttribute('data-theme') === 'red';
 
-    if (currentBG.includes('0f0c29')) {
-        body.style.background = 'linear-gradient(135deg, #0c290f, #2b6330, #243e24)';
+    if (!isRedTheme) {
+        // Switch to "Red Alert" Theme
+        body.style.background = 'linear-gradient(135deg, #2b0000, #800000, #330000)';
+        matrixColor = '#ff0033'; // Bright Red Matrix
+        body.setAttribute('data-theme', 'red');
+
+        // Update Title Color for contrast
+        const h1 = document.querySelector('h1');
+        if (h1) h1.style.background = 'linear-gradient(to right, #ff4d4d, #ff9900, #ff4d4d)';
+
     } else {
+        // Revert to "Cyber Blue" Theme
         body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+        matrixColor = '#00ff41'; // Classic Green Matrix
+        body.removeAttribute('data-theme');
+
+        // Revert Title Color
+        const h1 = document.querySelector('h1');
+        if (h1) h1.style.background = ''; // Reverts to CSS default
+    }
+
+    // Restart animation to apply new color immediately
+    // Note: In a real app we might just update the variable, but restarting ensures clean state
+    // startMatrixAnimation is now available because we refactored createMatrixEffect
+    if (typeof startMatrixAnimation === 'function') {
+        startMatrixAnimation();
     }
 }
 
 // Add window resize listener to adjust canvas size
+// Add window resize listener to adjust canvas size
 window.addEventListener('resize', function () {
-    const canvas = document.querySelector('.matrix-effect');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (typeof startMatrixAnimation === 'function') {
+        startMatrixAnimation();
+    }
 });

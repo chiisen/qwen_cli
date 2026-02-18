@@ -54,6 +54,19 @@ qwen --version
 qwen
 ```
 
-## 📸 實機演示 (Demo)
+## �️ 技術介面展示 (Tech Interface Demo)
+
+本專案包含一個名為 `hello_world_tech.html` 的前端展示頁面，用於呈現 **Qwen Code** 的品牌形象概念。
+
+*   **功能與目的**：作為 "Hello World" 概念展示或未來的登陸頁面範本。
+*   **視覺特效**：
+    *   🌌 **動態背景**：包含 Matrix 代碼雨與深邃宇宙風格。
+    *   ⚡ **故障藝術 (Glitch)**：標題與終端機文字帶有數位雜訊效果。
+    *   🎨 **主題切換**：支援高對比的「庫柏紅 (Cyber Red)」與「科技藍 (Tech Blue)」雙色主題切換。
+*   **技術架構**：採用 HTML/CSS/JS 分離架構 (`style.css`, `script.js`)，確保代碼整潔與可維護性。
+
+您可以用瀏覽器直接打開 `hello_world_tech.html` 體驗這些效果。
+
+## �📸 實機演示 (Demo)
 
 ![qwen02](./images/qwen02.png)

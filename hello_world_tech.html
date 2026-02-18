@@ -1,299 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qwen Code - Tech Interface</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #e0e0ff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated background elements */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 20%);
-            z-index: -1;
-        }
-
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(rgba(0, 150, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 150, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #00dbde, #fc00ff, #00dbde);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-align: center;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 4px;
-            background: linear-gradient(to right, transparent, #00dbde, #fc00ff, transparent);
-            border-radius: 2px;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a0a0ff;
-            text-align: center;
-            max-width: 600px;
-            margin-top: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .terminal-window {
-            background: rgba(10, 15, 30, 0.7);
-            border-radius: 10px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 
-                0 0 20px rgba(0, 200, 255, 0.3),
-                inset 0 0 20px rgba(0, 100, 255, 0.2);
-            border: 1px solid rgba(0, 200, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0, 200, 255, 0.3);
-            margin-bottom: 1.5rem;
-        }
-
-        .terminal-buttons {
-            display: flex;
-            gap: 8px;
-            margin-right: 1rem;
-        }
-
-        .terminal-button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .close { background: #ff5f57; }
-        .minimize { background: #ffbd2e; }
-        .maximize { background: #28c940; }
-
-        .terminal-title {
-            color: #a0a0ff;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .terminal-content {
-            position: relative;
-        }
-
-        .terminal-line {
-            margin: 0.8rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-        }
-
-        .terminal-line::before {
-            content: '> ';
-            position: absolute;
-            left: 0;
-            color: #00dbde;
-        }
-
-        .pulse {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #00ff41;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            background: linear-gradient(45deg, #00dbde, #fc00ff);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .matrix-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes glitch {
-            0% { text-shadow: 0 0 0 rgba(0, 255, 255, 0.7), 0 0 0 rgba(255, 0, 255, 0.7); }
-            25% { text-shadow: 2px 0 0 rgba(0, 255, 255, 0.7), -2px 0 0 rgba(255, 0, 255, 0.7); }
-            50% { text-shadow: -2px 0 0 rgba(0, 255, 255, 0.7), 2px 0 0 rgba(255, 0, 255, 0.7); }
-            75% { text-shadow: 2px 0 0 rgba(0, 255, 255, 0.7), -2px 0 0 rgba(255, 0, 255, 0.7); }
-            100% { text-shadow: 0 0 0 rgba(0, 255, 255, 0.7), 0 0 0 rgba(255, 0, 255, 0.7); }
-        }
-
-        .glitch-text {
-            animation: glitch 0.5s infinite;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 1rem;
-            width: 100%;
-            text-align: center;
-            color: rgba(160, 160, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
-            
-            .terminal-window {
-                padding: 1.5rem;
-                margin: 0 1rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="grid-overlay"></div>
-    
+
     <div class="container">
         <div class="header">
             <h1 class="glitch-text">Qwen Code</h1>
             <p class="subtitle">Advanced AI Programming Assistant Interface</p>
         </div>
-        
+
         <div class="terminal-window">
             <div class="terminal-header">
                 <div class="terminal-buttons">
@@ -303,7 +26,7 @@
                 </div>
                 <div class="terminal-title">QWEN-CLI: SYSTEM STATUS</div>
             </div>
-            
+
             <div class="terminal-content">
                 <div class="terminal-line">
                     <span class="pulse"></span> System Initialized
@@ -322,99 +45,18 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="controls">
             <button class="btn" onclick="glitchEffect()">Execute Command</button>
             <button class="btn" onclick="toggleTheme()">System Theme</button>
         </div>
     </div>
-    
+
     <div class="footer">
         Qwen Code AI Assistant v3.0 | Advanced Programming Interface
     </div>
 
-    <script>
-        // Create matrix-style background effect
-        document.addEventListener('DOMContentLoaded', function() {
-            createMatrixEffect();
-        });
-
-        function createMatrixEffect() {
-            const canvas = document.createElement('canvas');
-            canvas.classList.add('matrix-effect');
-            document.body.appendChild(canvas);
-            
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
-            const fontSize = 12;
-            const columns = canvas.width / fontSize;
-            
-            const drops = [];
-            for(let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
-            }
-
-            function draw() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = '#00ff41';
-                ctx.font = `${fontSize}px monospace`;
-
-                for(let i = 0; i < drops.length; i++) {
-                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    
-                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    
-                    drops[i]++;
-                }
-            }
-
-            setInterval(draw, 35);
-        }
-
-        function glitchEffect() {
-            const h1 = document.querySelector('h1');
-            h1.classList.add('glitch-text');
-            
-            // Add a temporary class for enhanced glitch effect
-            h1.style.animation = 'glitch 0.3s 3';
-            
-            setTimeout(() => {
-                h1.style.animation = '';
-            }, 1000);
-            
-            // Add visual feedback to terminal
-            const terminal = document.querySelector('.terminal-content');
-            const newLine = document.createElement('div');
-            newLine.className = 'terminal-line';
-            newLine.innerHTML = '<span class="pulse"></span> Command executed successfully';
-            terminal.appendChild(newLine);
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const currentBG = getComputedStyle(body).backgroundImage;
-            
-            if(currentBG.includes('0f0c29')) {
-                body.style.background = 'linear-gradient(135deg, #0c290f, #2b6330, #243e24)';
-            } else {
-                body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
-            }
-        }
-
-        // Add window resize listener to adjust canvas size
-        window.addEventListener('resize', function() {
-            const canvas = document.querySelector('.matrix-effect');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>

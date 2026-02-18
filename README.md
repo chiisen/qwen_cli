@@ -27,7 +27,7 @@
 
 本專案包含以下重要文件，供開發者與 AI Agent 參考：
 
-*   **🤖 [AGENTS.md](./AGENTS.md)**: 專為 OpenCode Agent 設計的專案開發指南與規則庫（OpenCode 官方標準檔案）。
+*   **🤖 [AGENTS.md](.opencode/rules/AGENTS.md)**: 專為 OpenCode Agent 設計的專案開發指南與規則庫（OpenCode 官方標準檔案）。
 *   **🧠 [QWEN.md](./QWEN.md)**: Qwen Code 專案的核心背景、架構與技術細節說明。
     *   🇹🇼 **[QWEN_zh-TW.md](./QWEN_zh-TW.md)**: `QWEN.md` 的繁體中文翻譯版本。
 *   **💎 [GEMINI.md](./GEMINI.md)**: Gemini Agent 專屬的開發指南與最佳實踐。

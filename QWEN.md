@@ -27,7 +27,7 @@ The project references the official Qwen Code repository at https://github.com/Q
 
 ### Prerequisites
 - Node.js 20
-- Python 3.8.0 (as indicated by .python-version file)
+- Python 3.11.9 (as indicated by .python-version file)
 - npm package manager
 
 ### Installation Commands
@@ -46,7 +46,7 @@ qwen
 The current repository contains:
 - `README.md` - Project documentation and usage instructions
 - `.nvsrc` - Contains version indicator "20" (likely Node version)
-- `.python-version` - Specifies Python 3.8.0
+- `.python-version` - Specifies Python 3.11.9
 - `LICENSE` - MIT License
 - `images/` - Contains project images (qwen01.png)
 - `QWEN.md` - This context file

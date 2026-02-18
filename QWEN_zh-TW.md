@@ -27,7 +27,7 @@
 
 ### 先決條件 (Prerequisites)
 *   **Node.js 20**
-*   **Python 3.8.0** (根據 `.python-version` 檔案指示)
+*   **Python 3.11.9** (根據 `.python-version` 檔案指示)
 *   **npm** 套件管理器
 
 ### 安裝指令 (Installation Commands)
@@ -46,7 +46,7 @@ qwen
 目前的儲存庫結構如下：
 *   `README.md` - 專案文件與使用說明
 *   `.nvsrc` - 包含版本指示 "20" (可能是 Node 版本)
-*   `.python-version` - 指定 Python 3.8.0
+*   `.python-version` - 指定 Python 3.11.9
 *   `LICENSE` - MIT 授權條款
 *   `images/` - 包含專案圖片 (如 `qwen01.png`)
 *   `QWEN.md` - 本背景文件
